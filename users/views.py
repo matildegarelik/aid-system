@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login,logout
 from .forms import CreateUserForm
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 #Decorators
 from .decorators import *
@@ -47,7 +48,7 @@ def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
     else:
-        if request.method =='POST':
+        if request.method =='POST' and request.POST.get('submit')=='Login B':
             username= request.POST.get('username')
             password= request.POST.get('password')
             user = authenticate(request, username=username, password=password)
@@ -56,8 +57,18 @@ def loginPage(request):
                 return redirect('home')
             else:
                 messages.info(request,'Username or password is incorrect')
-        
-        context={}
+        elif request.method =='POST' and request.POST.get('submit')=='Login A':
+            username= request.POST.get('username')
+            user = User.objects.get(username=username)
+            #manually set the backend attribute
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, user)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request,'Username or password is incorrect')
+        context={'users':User.objects.filter(groups__name="groupA")}
         return render (request, 'login.html', context)
 
 #LOGOUT

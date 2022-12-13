@@ -82,7 +82,7 @@
 				<div class="d-flex justify-content-center">
 
 
-					<h3 id="form-title">LOGIN</h3>
+					<h1 id="form-title">LOGIN</h1>
 				</div>
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="">
@@ -99,10 +99,25 @@
 							</div>
 								<input type="password" name="password" placeholder="Password..." class="form-control" >
 						</div>
-
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 				<input class="btn login_btn" type="submit" value="Login">
+				 				<input class="btn login_btn" type="submit" name="submit" value="Login B">
 				   			</div>
+					</form>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form method="POST" action="">
+                        {% csrf_token %}
+						<div class="input-group mb-2">
+							<select name="username" class="select form-control">
+								<option value="">Choose user</option>
+								{% for u in users %}
+									<option value="{{u}}">{{u}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="d-flex justify-content-center mt-3 login_container">
+							<input class="btn login_btn" type="submit" name="submit" value="Login A">
+						</div>
 					</form>
 				</div>
                 {% for message in messages %}
