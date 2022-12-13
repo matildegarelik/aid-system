@@ -2,7 +2,7 @@
 
 To install the project do:
 ```
-pip install -r requiremnts.txt
+pip install -r requirements.txt
 python manage.py migrate
 ```
 
